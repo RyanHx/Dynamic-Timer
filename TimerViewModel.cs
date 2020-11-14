@@ -26,7 +26,7 @@ namespace DynamicTimer
         public TimeSpan Time { get; set; }
         public string MainTimerText
         {
-            get => Time.ToString("hh\\:mm\\:ss");            
+            get => $"{(int)Time.TotalHours}:{Time:mm}:{Time:ss}";            
         }
 
         public TimerViewModel()
@@ -34,7 +34,7 @@ namespace DynamicTimer
             AddTimers = new ObservableCollection<TimeSpan>();
             CreateAddTimer = new RelayCommand(() => AddTimers.Add(new TimeSpan(AddHours, AddMinutes, AddSeconds)));
             StartTimer = new RelayCommand(StartMainTimer);
-            StopTimer = new RelayCommand(StopMainTimer);
+            StopTimer = new RelayCommand(() => Timer.Stop());
             DeleteAddTimer = new RelayCommand(DeleteAdditionalTimer);
             AddTimeComm = new RelayCommand(AddTime);
             Timer = new Timer(1000);
@@ -56,11 +56,6 @@ namespace DynamicTimer
             {
                 Timer.Stop();
             }
-        }
-
-        public void StopMainTimer()
-        {
-            Timer.Stop();
         }
 
         public void DeleteAdditionalTimer(object arg)
